@@ -2,7 +2,7 @@
 
 DEST=`pwd`
 #enter here your referal link from Dropbox
-REFLINK="http://db.tt/V1ESzte"
+REFLINK="https://db.tt/1qjnETUe"
 
 download()
 {
