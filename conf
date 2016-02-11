@@ -1,0 +1,636 @@
+!
+! Last configuration change at 15:26:38 MSK Tue Nov 3 2015 by mskadmin
+! NVRAM config last updated at 15:26:40 MSK Tue Nov 3 2015 by mskadmin
+!
+version 12.4
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime localtime
+service timestamps log datetime localtime
+service password-encryption
+!
+hostname KazanAero2811
+!
+boot-start-marker
+boot-end-marker
+!
+logging message-counter syslog
+logging buffered 32768
+enable secret 5 $1$f9IZ$FF4BHYD3I7askBDihTVWk/
+!
+aaa new-model
+!
+!
+aaa group server radius RAD-SERVERS
+server 10.16.12.205 auth-port 1645 acct-port 1646
+server 10.16.12.206 auth-port 1645 acct-port 1646
+!
+aaa group server tacacs+ TAC-SERVERS
+server 10.16.20.99
+!
+aaa authentication login default local
+aaa authentication login HTTP local
+aaa authentication ppp default local
+aaa authorization exec default group TAC-SERVERS local if-authenticated
+aaa authorization exec HTTP local if-authenticated
+aaa authorization network default local if-authenticated
+aaa authorization auth-proxy default local
+aaa accounting commands 1 default
+action-type start-stop
+group tacacs+
+!
+aaa accounting commands 15 default
+action-type start-stop
+group tacacs+
+!
+!
+!
+aaa session-id common
+clock timezone MSK 4
+!
+dot11 syslog
+ip source-route
+ip auth-proxy auth-proxy-banner file flash:banner.html
+ip auth-proxy absolute-timer 30
+ip admission source-interface FastEthernet0/1.200
+ip admission auth-proxy-banner file flash:banner.html
+ip admission absolute-timer 30
+ip admission name PROXY proxy http inactivity-time 30 list ADMISSION
+!
+!
+ip cef
+no ip dhcp use vrf connected
+ip dhcp excluded-address 10.80.69.0 10.80.69.79
+ip dhcp excluded-address 10.80.69.96 10.80.69.255
+!
+ip dhcp pool phone01
+   host 10.80.69.224 255.255.255.0
+   client-identifier 0100.19aa.2902.05
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone02
+   host 10.80.69.225 255.255.255.0
+   client-identifier 0100.19aa.8a34.eb
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone03
+   host 10.80.69.226 255.255.255.0
+   client-identifier 0100.19aa.793e.9b
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone04
+   host 10.80.69.227 255.255.255.0
+   client-identifier 0100.19aa.9dce.65
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone05
+   host 10.80.69.228 255.255.255.0
+   client-identifier 0100.19aa.b1b0.20
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone06
+   host 10.80.69.229 255.255.255.0
+   client-identifier 0100.19aa.2908.dc
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone07
+   host 10.80.69.230 255.255.255.0
+  client-identifier 0100.19aa.8a34.a5
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone08
+   host 10.80.69.231 255.255.255.0
+   client-identifier 0100.19aa.793d.c8
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool lan
+   network 10.80.69.0 255.255.255.0
+   default-router 10.80.69.1
+   domain-name rosinter.ru
+   dns-server 10.16.12.201 10.16.12.202
+   netbios-name-server 10.16.12.211
+!
+ip dhcp pool kadyrov
+   host 10.80.69.12 255.255.255.0
+   client-identifier 0160.6720.b7ec.70
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+!
+ip dhcp pool phone09
+   host 10.80.69.233 255.255.255.0
+   client-identifier 0100.19aa.9dcf.03
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone10
+   host 10.80.69.234 255.255.255.0
+   client-identifier 0100.19aa.9dcf.b1
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool phone11
+   host 10.80.69.235 255.255.255.0
+   client-identifier 0100.19aa.b1a9.6e
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   option 150 ip 10.16.20.14 10.16.20.15
+   domain-name rosinter.ru
+!
+ip dhcp pool phone12
+   host 10.80.69.236 255.255.255.0
+   client-identifier 0100.19aa.b1aa.99
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+   option 150 ip 10.16.20.14 10.16.20.15
+!
+ip dhcp pool nikulin
+   host 10.80.69.88 255.255.255.0
+   client-identifier 0144.2a60.fc8f.46
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+!
+ip dhcp pool rakhimov
+   host 10.80.69.89 255.255.255.0
+   client-identifier 01b0.3495.f155.f2
+   default-router 10.80.69.1
+   dns-server 10.16.12.201 10.16.12.202
+   domain-name rosinter.ru
+!
+!
+no ip bootp server
+ip domain name rosinter.ru
+ip name-server 10.16.12.201
+ip name-server 10.16.12.202
+login on-failure log
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+async-bootp time-server 10.16.12.201 10.16.12.202
+async-bootp dns-server 10.16.12.201 10.16.12.202
+vpdn enable
+!
+vpdn-group 1
+! Default PPTP VPDN group
+accept-dialin
+  protocol pptp
+  virtual-template 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+voice-card 0
+!
+!
+application
+global
+  service alternate Default
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1878820470
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-1878820470
+revocation-check none
+rsakeypair TP-self-signed-1878820470
+!
+!
+crypto pki certificate chain TP-self-signed-1878820470
+certificate self-signed 01
+  30820251 308201BA A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 31383738 38323034 3730301E 170D3133 30333136 31373138
+  34335A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 38373838
+  32303437 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B5A1 D38B0829 0493EE3D 9F181C28 F26A3978 186CE5CE 0659EF57 A725F572
+  BBA5BA76 649165E8 0EE905B6 5E68EB8A 50777CE4 E9428EB6 51FB636B F48E934C
+  E3565D52 8D4516C5 4B13A8A1 B773C367 16F8975A 49852C1C 05CB1A09 331BCE64
+  0DDB087B A7CBF824 22658970 4F0DA117 9EDBE415 2F7AFF3A AF3C615F 36451145
+  B9070203 010001A3 79307730 0F060355 1D130101 FF040530 030101FF 30240603
+  551D1104 1D301B82 194B617A 616E4165 726F3238 31312E72 6F73696E 7465722E
+  7275301F 0603551D 23041830 1680147B 312A6876 C82D55BC 462515E5 2E55436E
+  61F0B330 1D060355 1D0E0416 04147B31 2A6876C8 2D55BC46 2515E52E 55436E61
+  F0B3300D 06092A86 4886F70D 01010405 00038181 00AD75CD BCD0000A 7115ADCA
+  F112F261 82ABDA1A 398A355B 5DED8F9B 54158259 9060D427 F62C0660 B0117D5F
+  7BD07292 1571AE7C BD44E2F2 B0AF243D 2B53854F 6BC878E1 3377A36F 850BC98C
+  D7DF4F12 735BB07B A697633C DE02AEA9 EEEB4617 2B9F01CB 397F792A 6BAF0B3E
+  0628DF74 15E20BA4 689F1BC7 546DB457 D288CFE9 17
+     quit
+!
+!
+username admin privilege 15 secret 5 $1$TJty$mq2vivXbYJh7smYY8dYuw.
+username itdep privilege 15 secret 5 $1$hhXz$nD5Km5sUc7AAl99UUMki60
+username mskadmin privilege 15 secret 5 $1$O3yb$dEJ/IcyvRQgFg.G/PltIu0
+username amuhanov privilege 15 secret 5 $1$6DlI$pSsSp2vieNR8VObxzenie.
+archive
+log config
+  logging enable
+  logging size 150
+  hidekeys
+path tftp://10.16.20.33/config/REGREST/Kazan/10.80.69.0/routers/10.80.69.1/KazanAero2811.conf
+write-memory
+!
+!
+crypto isakmp policy 1
+encr 3des
+authentication pre-share
+group 2
+lifetime 28800
+crypto isakmp key CKazAero875785678 address 91.212.50.28
+crypto isakmp key CKazanAero76587658 address 5.128.33.86
+!
+!
+crypto ipsec transform-set TUNNEL esp-3des esp-sha-hmac
+!
+crypto ipsec profile P1
+set transform-set TUNNEL
+!
+!
+!
+!
+ip tcp synwait-time 10
+ip tcp path-mtu-discovery
+ip ssh version 2
+!
+class-map match-all DENY-VIDEO-HOSTING
+description Deny access to youtube-like hosts
+match access-group name deny-video-hosting
+match protocol http host "*youtube.com|*rutube.ru|video.mail.ru|video.yandex.ru"
+class-map match-all DENY-MULTIMEDIA
+description Deny download multimedia files
+match access-group name deny-multimedia-files
+match protocol http url "*.mp3|*.avi|*.mkv|*.mpg|*.ogg"
+class-map match-all DENY-MIME-VIDEO
+description Block video files by MIME-types
+match access-group name deny-mime-video
+match protocol http mime "video/x-msvideo|video/x-flv|video/mpeg|video/mp4|video/x-matroska"
+class-map match-all DENY-MIME-AUDIO
+description Block audio files by MIME-types
+match access-group name deny-mime-audio
+match protocol http mime "audio/mpeg|audio/x-ms-wma"
+class-map match-all DENY-SOCIAL-NET
+description Deny access to social networks
+match access-group name deny-social-net
+match protocol http host "vk.com|*.odnoklassniki.ru"
+class-map match-all DENY-TORRENT
+description Deny torrents
+match access-group name deny-torrents
+match protocol http url "*.torrent|*magnet:*"
+!
+!
+policy-map LAN
+class DENY-SOCIAL-NET
+   drop
+class DENY-MULTIMEDIA
+   drop
+class DENY-VIDEO-HOSTING
+   drop
+class DENY-MIME-VIDEO
+   drop
+class DENY-MIME-AUDIO
+   drop
+class DENY-TORRENT
+   drop
+!
+!
+!
+!
+!
+interface Loopback40
+description OSPF loopback
+ip address 10.16.40.24 255.255.255.0
+no ip redirects
+no ip proxy-arp
+!
+interface Loopback42
+description OSPF loopback
+ip address 10.16.42.246 255.255.255.0
+no ip redirects
+no ip proxy-arp
+!
+interface Tunnel700
+description Tunnel to Moscow
+bandwidth 512
+ip unnumbered Loopback42
+no ip redirects
+no ip proxy-arp
+ip flow ingress
+ip ospf message-digest-key 4 md5 7 121E1F191F08060A323F2A3B3B21
+ip ospf network point-to-point
+ip ospf cost 100
+ip ospf mtu-ignore
+tunnel source FastEthernet0/0.152
+tunnel destination 91.212.50.28
+tunnel mode ipsec ipv4
+tunnel protection ipsec profile P1
+!
+interface Tunnel701
+description Novosibirsk
+ip unnumbered Loopback40
+no ip redirects
+no ip proxy-arp
+ip flow ingress
+ip ospf message-digest-key 6 md5 7 0601152F414D03170C03110501
+ip ospf network point-to-point
+ip ospf cost 100
+ip ospf mtu-ignore
+tunnel source FastEthernet0/0.152
+tunnel destination 5.128.33.86
+tunnel protection ipsec profile P1
+!
+interface FastEthernet0/0
+no ip address
+duplex auto
+speed 10
+!
+interface FastEthernet0/0.152
+description Beeline Internet
+encapsulation dot1Q 152
+ip address 217.30.254.42 255.255.255.252
+ip access-group inter-in in
+no ip redirects
+no ip proxy-arp
+ip flow ingress
+ip nat outside
+ip virtual-reassembly
+!
+interface FastEthernet0/1
+no ip address
+duplex auto
+speed auto
+!
+interface FastEthernet0/1.200
+description LAN
+encapsulation dot1Q 200 native
+ip address 10.80.69.1 255.255.255.0
+ip access-group lan-in in
+no ip redirects
+ip admission PROXY
+ip nbar protocol-discovery
+ip flow ingress
+ip nat inside
+ip virtual-reassembly
+service-policy input LAN
+!
+interface Virtual-Template1
+description PPTP connection
+ip unnumbered FastEthernet0/1.200
+ip access-group PPTP in
+peer default ip address pool PPTP
+ppp encrypt mppe 128
+ppp authentication ms-chap-v2 ms-chap chap
+ppp ipcp dns 10.16.12.201 10.16.12.202
+ppp ipcp mask 255.255.255.0
+no clns route-cache
+!
+router ospf 506
+router-id 10.16.42.246
+log-adjacency-changes
+area 4 authentication message-digest
+area 6 authentication message-digest
+redistribute connected
+network 10.16.40.0 0.0.0.255 area 6
+network 10.16.42.0 0.0.0.255 area 4
+network 10.80.69.0 0.0.0.255 area 4
+!
+ip local pool PPTP 10.80.69.64 10.80.69.67
+ip forward-protocol nd
+ip route 0.0.0.0 0.0.0.0 FastEthernet0/0.152 217.30.254.41
+ip route 194.186.207.162 255.255.255.255 217.30.254.41
+no ip http server
+ip http access-class 23
+no ip http secure-server
+!
+ip flow-export source FastEthernet0/1
+ip flow-export version 5
+ip flow-export destination 10.16.20.20 9990
+!
+ip dns server
+ip nat inside source list NATusers interface FastEthernet0/0.152 overload
+ip nat inside source static tcp 10.80.69.110 80 interface FastEthernet0/0.152 81
+ip nat inside source static tcp 10.80.69.111 80 interface FastEthernet0/0.152 82
+ip nat inside source static tcp 10.80.69.112 80 interface FastEthernet0/0.152 83
+ip nat inside source static tcp 10.80.69.113 80 interface FastEthernet0/0.152 84
+ip nat inside source static tcp 10.80.69.114 80 interface FastEthernet0/0.152 85
+ip nat inside source static tcp 10.80.69.116 80 interface FastEthernet0/0.152 87
+ip nat inside source static tcp 10.80.69.115 80 interface FastEthernet0/0.152 86
+ip nat inside source static tcp 10.80.69.117 80 interface FastEthernet0/0.152 88
+ip nat inside source static tcp 10.80.69.110 37770 interface FastEthernet0/0.152 37770
+ip nat inside source static tcp 10.80.69.111 37771 interface FastEthernet0/0.152 37771
+ip nat inside source static tcp 10.80.69.112 37772 interface FastEthernet0/0.152 37772
+ip nat inside source static tcp 10.80.69.113 37773 interface FastEthernet0/0.152 37773
+ip nat inside source static tcp 10.80.69.114 37774 interface FastEthernet0/0.152 37774
+ip nat inside source static tcp 10.80.69.117 37777 interface FastEthernet0/0.152 37777
+ip nat inside source static tcp 10.80.69.110 37760 interface FastEthernet0/0.152 37760
+ip nat inside source static tcp 10.80.69.111 37761 interface FastEthernet0/0.152 37761
+ip nat inside source static tcp 10.80.69.112 37762 interface FastEthernet0/0.152 37762
+ip nat inside source static tcp 10.80.69.113 37763 interface FastEthernet0/0.152 37763
+ip nat inside source static tcp 10.80.69.114 37764 interface FastEthernet0/0.152 37764
+ip nat inside source static tcp 10.80.69.115 37775 interface FastEthernet0/0.152 37775
+ip nat inside source static tcp 10.80.69.116 37776 interface FastEthernet0/0.152 37776
+ip nat inside source static tcp 10.80.69.115 37765 interface FastEthernet0/0.152 37765
+ip nat inside source static tcp 10.80.69.116 37766 interface FastEthernet0/0.152 37766
+!
+ip access-list extended ADMISSION
+deny   ip 10.80.69.0 0.0.0.255 10.16.0.0 0.15.255.255
+deny   ip 10.80.69.0 0.0.0.255 10.80.0.0 0.15.255.255
+deny   ip 10.80.69.0 0.0.0.255 192.168.10.0 0.0.1.255
+deny   ip 10.80.69.0 0.0.0.255 66.151.185.224 0.0.0.15
+deny   ip 10.80.69.0 0.0.0.255 66.150.201.160 0.0.0.7
+deny   ip 10.80.69.0 0.0.0.255 66.151.178.0 0.0.0.255
+deny   ip 10.80.69.0 0.0.0.255 host 69.25.77.179
+deny   ip 10.80.69.0 0.0.0.255 host 192.230.65.17
+deny   ip 10.80.69.0 0.0.0.255 host 194.186.207.162
+deny   ip host 10.80.69.12 any
+deny   ip host 10.80.69.88 any
+deny   ip host 10.80.69.89 any
+ip access-list extended NATusers
+deny   ip 10.80.69.0 0.0.0.255 10.0.0.0 0.255.255.255
+deny   ip 10.80.69.0 0.0.0.255 192.168.0.0 0.0.255.255
+deny   ip 10.80.69.0 0.0.0.255 172.16.0.0 0.15.255.255
+permit ip 10.80.69.0 0.0.0.255 any
+ip access-list extended PPTP
+permit udp 10.80.69.0 0.0.0.255 host 10.16.12.201 eq domain
+permit udp 10.80.69.0 0.0.0.255 host 10.16.12.202 eq domain
+permit ip 10.80.69.0 0.0.0.255 10.80.69.0 0.0.0.255
+deny   ip any any log
+ip access-list extended deny-mime-audio
+deny   ip 10.8.69.0 0.0.0.255 10.0.0.0 0.255.255.255
+deny   ip 10.8.69.0 0.0.0.255 192.168.10.0 0.0.1.255
+permit ip 10.8.69.0 0.0.0.255 any
+ip access-list extended deny-mime-video
+deny   ip 10.8.69.0 0.0.0.255 10.0.0.0 0.255.255.255
+deny   ip 10.8.69.0 0.0.0.255 192.168.10.0 0.0.1.255
+permit ip 10.8.69.0 0.0.0.255 any
+ip access-list extended deny-multimedia-files
+deny   ip host 10.80.96.1 any
+permit ip 10.80.69.0 0.0.0.255 any
+ip access-list extended deny-social-net
+deny   ip host 10.80.96.1 any
+permit ip 10.80.69.0 0.0.0.255 any
+ip access-list extended deny-torrents
+permit ip 10.8.69.0 0.0.0.255 any
+ip access-list extended deny-video-hosting
+deny   ip host 10.80.96.1 any
+permit ip 10.80.69.0 0.0.0.255 any
+ip access-list extended inter-in
+permit tcp any host 217.30.254.42 established
+permit ip 91.212.50.0 0.0.0.255 host 217.30.254.42
+permit ip host 178.49.9.45 host 217.30.254.42
+permit udp host 194.87.0.28 host 217.30.254.42 eq ntp
+permit tcp any host 217.30.254.42 eq 22
+permit icmp any host 217.30.254.42
+permit tcp any host 217.30.254.42 eq 1723
+permit gre any host 217.30.254.42
+ip access-list extended lan-in
+permit udp host 0.0.0.0 host 255.255.255.255 range bootps bootpc
+permit udp 10.80.69.0 0.0.0.255 eq bootpc host 255.255.255.255 eq bootps
+permit ip 10.80.69.0 0.0.0.255 10.0.0.0 0.255.255.255
+permit ip 10.80.69.0 0.0.0.255 192.168.10.0 0.0.1.255
+permit ip 10.80.69.0 0.0.0.255 66.151.185.224 0.0.0.15
+permit ip 10.80.69.0 0.0.0.255 66.150.201.160 0.0.0.7
+permit ip 10.80.69.0 0.0.0.255 66.151.178.0 0.0.0.255
+permit ip 10.80.69.0 0.0.0.255 host 69.25.77.179
+permit ip 10.80.69.0 0.0.0.255 host 192.230.65.17
+permit ip 10.80.69.0 0.0.0.255 host 194.186.207.162
+permit tcp 10.80.69.0 0.0.0.255 host 10.80.69.1 eq www
+permit udp 10.80.69.0 0.0.0.255 host 10.80.69.1 eq domain
+permit udp 10.80.69.0 0.0.0.255 host 8.8.8.8
+permit ip host 10.80.69.12 any
+permit ip host 10.80.69.110 any
+permit ip host 10.80.69.111 any
+permit ip host 10.80.69.112 any
+permit ip host 10.80.69.113 any
+permit ip host 10.80.69.114 any
+permit ip host 10.80.69.115 any
+permit ip host 10.80.69.116 any
+permit ip host 10.80.69.117 any
+permit ip host 10.80.69.88 any
+permit ip host 10.80.69.89 any
+!
+logging trap debugging
+logging 10.16.20.33
+access-list 11 permit 10.16.20.20
+access-list 11 permit 10.16.20.33
+access-list 11 permit 10.16.20.98
+access-list 11 permit 10.16.20.99
+access-list 11 permit 10.16.8.211
+access-list 23 permit 91.212.50.0 0.0.0.255
+access-list 23 permit 10.16.0.0 0.15.255.255
+access-list 23 permit 10.80.69.0 0.0.0.255
+access-list 23 permit 10.32.0.0 0.15.255.255
+snmp-server community regrest RO 11
+snmp-server ifindex persist
+snmp-server priority high
+snmp-server contact noc@rosinter.ru
+!
+!
+!
+!
+!
+!
+tacacs-server host 10.16.20.99 key 7 143A1B18040F2B02370C363426
+radius-server host 10.16.12.205 auth-port 1645 acct-port 1646 key 7 02101C0F5E505C34691B5B4A541611
+radius-server host 10.16.12.206 auth-port 1645 acct-port 1646 key 7 0610177519185A0C204240585D0529
+!
+control-plane
+!
+!
+!
+ccm-manager fallback-mgcp
+ccm-manager mgcp
+ccm-manager fax protocol cisco
+ccm-manager config
+!
+mgcp
+mgcp dtmf-relay voip codec all mode cisco
+mgcp package-capability rtp-package
+mgcp sdp simple
+!
+!
+!
+!
+!
+!
+call-manager-fallback
+max-conferences 8 gain -6
+transfer-system full-consult
+user-locale RU
+ip source-address 10.80.69.1 port 2000
+max-ephones 10
+max-dn 10
+system message primary Internet off. Local calls only!
+system message secondary Local calls only!
+time-zone 34
+time-format 24
+date-format dd-mm-yy
+!
+banner motd _Welcome to Rosinter Corporate Network!
+_
+!
+line con 0
+exec-timeout 30 0
+line aux 0
+line vty 0 4
+access-class 23 in
+exec-timeout 30 0
+transport input telnet ssh
+escape-character 3
+!
+scheduler allocate 20000 1000
+ntp logging
+ntp server 194.87.0.28
+ntp server 10.16.12.201
+ntp server 10.16.12.202
+end
